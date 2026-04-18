@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allwara | Premium Artisan Marketplace</title>
+    
+    <!-- Google Fonts: Inter & Poppins for Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for UI Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Ultimate Premium Color Palette */
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #ec4899;
+            --accent: #0ea5e9;
+            --bg-color: #f8fafc;
+            --bg-glass: rgba(255, 255, 255, 0.6);
+            --surface: rgba(255, 255, 255, 0.7);
+            --surface-solid: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: rgba(226, 232, 240, 0.8);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.2);
+            --glass-blur: blur(20px);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --gradient-1: linear-gradient(135deg, var(--primary), var(--secondary));
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+        }
+
+        [data-theme="dark"] {
+            --primary: #818cf8;
+            --primary-hover: #a5b4fc;
+            --secondary: #f472b6;
+            --accent: #38bdf8;
+            --bg-color: #0B0F19; /* Deep tech dark */
+            --bg-glass: rgba(11, 15, 25, 0.7);
+            --surface: rgba(23, 30, 48, 0.7);
+            --surface-solid: #171E30;
+            --text: #f8fafc;
+            --text-light: #94a3b8;
+            --border: rgba(51, 65, 85, 0.5);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 30px rgba(129, 140, 248, 0.15);
+            --gradient-1: linear-gradient(135deg, #6366f1, #d946ef);
+        }
+
+        /* Ambient Animated Background (Magic Vibe) */
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; overflow: hidden; z-index: -1; background: var(--bg-color); transition: background-color 0.5s ease;}
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlobs 20s infinite alternate; z-index: -1; pointer-events: none;}
+        .blob-1 { top: -10%; left: -10%; width: 400px; height: 400px; background: rgba(79, 70, 229, 0.4); }
+        .blob-2 { bottom: -10%; right: -10%; width: 500px; height: 500px; background: rgba(236, 72, 153, 0.4); animation-delay: -5s;}
+        .blob-3 { top: 40%; left: 60%; width: 350px; height: 350px; background: rgba(14, 165, 233, 0.3); animation-duration: 25s; }
+
+        @keyframes moveBlobs {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(150px, 150px) scale(1.2); }
+        }
+
+        /* Beautiful Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: rgba(120, 120, 120, 0.3); border-radius: 20px; border: 3px solid transparent; background-clip: padding-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--primary); border: 1px solid transparent; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: transparent; color: var(--text); overflow-x: hidden; scroll-behavior: smooth;}
+        h1, h2, h3, h4, h5, .poppins { font-family: 'Poppins', sans-serif; }
+
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        @keyframes fadeInDrop {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(79, 70, 229, 0); }
+        }
+
+        /* --- Header / Navbar --- */
+        header { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 15px 5%; width: 100%; position: sticky; top: 0; z-index: 100;
+            background: var(--surface); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm);
+            animation: fadeInDrop 0.8s ease forwards;
+        }
+        
+        .brand { display: flex; align-items: center; gap: 20px; }
+        
+        .menu-btn { 
+            font-size: 20px; cursor: pointer; color: var(--text); border: none; background: var(--surface-solid); 
+            width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border); transition: var(--transition);
+        }
+        .menu-btn:hover { background: var(--gradient-1); color: #fff; box-shadow: var(--shadow-glow); transform: rotate(90deg); }
+        
+        header h1 { 
+            background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            font-size: 32px; font-weight: 800; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            cursor: pointer; transition: var(--transition);
+        }
+        header h1:hover { transform: scale(1.02); }
+
+        .search-container { position: relative; width: 100%; max-width: 350px; }
+        .search-box input { 
+            padding: 14px 20px 14px 50px; border-radius: 50px; border: 1px solid var(--border); 
+            outline: none; background: var(--surface-solid); color: var(--text); width: 100%; 
+            font-size: 15px; font-weight: 500; font-family: 'Inter'; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), var(--shadow-sm); 
+            transition: var(--transition);
+        }
+        .search-box input::placeholder { color: var(--text-light); }
+        .search-box input:focus { 
+            border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15), var(--shadow-md); 
+            background: var(--bg-color); 
+        }
+        .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 18px; transition: var(--transition); pointer-events: none;}
+        .search-box input:focus + i { color: var(--primary); transform: translateY(-50%) scale(1.2); }
+
+        /* --- Hero Landing Text --- */
+        .hero-banner { text-align: center; margin: 60px auto 40px; padding: 0 20px; max-width: 800px; animation: fadeInUp 0.8s ease both;}
+        .hero-banner h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 15px; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-banner p { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-light); max-width: 600px; margin: auto; line-height: 1.6;}
+
+        /* --- Smart Filter Panel --- */
+        #mainContainer { max-width: 1350px; margin: 0 auto; padding: 0 3% 50px; min-height: 80vh; }
+        
+        .filters-wrapper { 
+            background: var(--surface); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            padding: 30px; border-radius: var(--radius-xl); margin-bottom: 40px; 
+            box-shadow: var(--shadow-lg); border: 1px solid var(--border); transition: var(--transition);
+            animation: fadeInUp 1s ease both 0.2s; position: relative; overflow: hidden;
+        }
+        .filters-wrapper::before { content:''; position: absolute; top:0; left:0; width: 4px; height: 100%; background: var(--gradient-1); }
+        
+        .filters-wrapper h3 { margin-bottom: 25px; font-size: 20px; font-weight: 700; display:flex; align-items:center; gap:12px; color: var(--text); }
+        .filters-wrapper h3 i { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; }
+        
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        
+        .filter-item { position: relative; }
+        .filter-item input, .filter-item select { 
+            width: 100%; padding: 14px 18px; border-radius: var(--radius-lg); border: 1px solid var(--border); 
+            background: var(--surface-solid); color: var(--text); outline: none; font-size: 15px; 
+            font-family: 'Inter'; font-weight: 500; transition: var(--transition); box-shadow: var(--shadow-sm); cursor: pointer;
+        }
+        .filter-item input:focus, .filter-item select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15), var(--shadow-md); transform: translateY(-2px);}
+        .static-india { background: rgba(0,0,0,0.03) !important; color: var(--text-light) !important; cursor: not-allowed; border-style: dashed; }
+        .filter-item small { color: var(--text-light); display: inline-block; padding-left: 5px; margin-top: 8px;}
+
+        /* --- Beautiful Loader --- */
+        #loader { text-align: center; padding: 100px 20px; font-size: 22px; font-weight: 600; color: var(--text); font-family: 'Poppins'; }
+        #loader .icon-wrapper { display: inline-block; margin-bottom: 25px; padding: 25px; border-radius: 50%; background: rgba(79,70,229,0.1); color: var(--primary); animation: pulseGlow 2s infinite; }
+        #loader i { font-size: 35px; }
+        #loader p { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* --- The Amazing Grid & Card Effects --- */
+        #sellerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card { 
+            background: var(--surface-solid); border-radius: var(--radius-xl); overflow: hidden; 
+            box-shadow: var(--shadow-md); border: 1px solid var(--border); transition: var(--transition);
+            position: relative; cursor: pointer; display: flex; flex-direction: column;
+            will-change: transform, box-shadow; 
+            /* animation mapping is done inside existing js as requested */
+        }
+        
+        .card:hover { transform: translateY(-12px) scale(1.02); box-shadow: var(--shadow-lg), var(--shadow-glow); border-color: var(--primary); z-index: 2;}
+        
+        .card-img-wrap { width: 100%; height: 200px; overflow: hidden; background: #eee; position: relative; }
+        /* Beautiful shadow overlay on image bottom */
+        .card-img-wrap::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); z-index: 1;}
+        .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card:hover .card-img-wrap img { transform: scale(1.15) rotate(-1deg); }
+        
+        .card-category-badge { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); color: #000; padding: 6px 14px; border-radius: 30px; font-size: 13px; font-family: 'Poppins'; font-weight: 700; box-shadow: var(--shadow-md); z-index: 2; backdrop-filter: blur(5px);}
+        
+        .card-body { padding: 25px; text-align: center; position: relative; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+        
+        .card-profile { 
+            width: 85px; height: 85px; border-radius: 50%; border: 4px solid var(--surface-solid); 
+            margin-top: -65px; object-fit: cover; background: #ddd; position: relative; z-index: 3; 
+            box-shadow: var(--shadow-md); transition: var(--transition); 
+            outline: 2px solid transparent; outline-offset: 3px;
+        }
+        .card:hover .card-profile { transform: translateY(-5px) scale(1.08); outline-color: var(--primary); }
+        
+        .card-title { margin-top: 15px; font-family: 'Poppins'; font-size: 20px; font-weight: 800; color: var(--text); }
+        .card-loc { font-size: 14px; color: var(--text-light); margin-top: 8px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(120,120,120,0.08); padding: 6px 14px; border-radius: 20px;}
+        .card-loc i { color: var(--secondary); }
+
+        /* --- Advanced Detail Screen (Apple Bottom Sheet / Scale effect) --- */
+        #detailsView { 
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: var(--bg-glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            z-index: 2000; overflow-y: auto; overflow-x: hidden;
+            /* js injects block and basic animation, css makes it magical */
+        }
+        
+        /* Wrapped container inside the view to look like a modal sheet */
+        .dv-inner-sheet {
+            max-width: 900px; margin: 40px auto 100px; background: var(--surface-solid); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+            animation: fadeInDrop 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; position: relative;
+        }
+
+        .details-header { 
+            display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; 
+            background: var(--surface); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border); 
+            position: sticky; top: 0; z-index: 50; box-shadow: var(--shadow-sm);
+        }
+        .back-btn { font-size: 15px; font-family: 'Poppins'; font-weight: 600; border: none; background: var(--surface-solid); color: var(--text); padding: 10px 20px; border-radius: 30px; cursor: pointer; transition: var(--transition); border: 1px solid var(--border); display: flex; gap: 8px; align-items: center;}
+        .back-btn:hover { background: var(--text); color: var(--surface-solid); transform: translateX(-5px); box-shadow: var(--shadow-md); }
+        #dvHeadName { margin-right:auto; margin-left: 20px;}
+
+        /* Premium Cover Photo */
+        .profile-hero { position: relative; text-align: center; padding-bottom: 40px; background: url('data:image/svg+xml;utf8,<svg opacity="0.03" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="url(%23g)"/><pattern id="g" patternUnits="userSpaceOnUse" width="10" height="10"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23000" stroke-width="0.5"/></pattern></svg>'); }
+        .cover-photo { height: 280px; background: var(--gradient-1); width: 100%; position: relative; overflow: hidden; }
+        .cover-photo::before { content:''; position: absolute; top:0; left:0; width:100%; height:100%; background: inherit; filter: blur(30px); opacity: 0.6; transform: scale(1.1);}
+        
+        .profile-hero-content { display: flex; flex-direction: column; align-items: center; margin-top: -85px; position: relative; z-index: 10; padding: 0 30px;}
+        .profile-hero-content img { width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--surface-solid); object-fit: cover; box-shadow: var(--shadow-lg); margin-bottom: 20px; background: var(--bg-color); }
+        .profile-hero-content h1 { font-family: 'Poppins'; font-size: 34px; font-weight: 800; margin-bottom: 12px; color: var(--text); letter-spacing: -0.5px;}
+        
+        .cat-loc-badge { display: inline-flex; flex-wrap:wrap; gap: 15px; margin-bottom: 20px; justify-content: center;}
+        .cat-loc-badge span { background: var(--surface-solid); padding: 8px 18px; border-radius: 30px; font-size: 15px; font-weight: 600; font-family:'Poppins'; color: var(--text-light); border: 1px solid var(--border); box-shadow: var(--shadow-sm); display:flex; align-items:center; gap:8px;}
+        .cat-loc-badge span i { font-size: 16px; color: var(--primary);}
+        .bio-text { color: var(--text-light); max-width: 600px; line-height: 1.8; font-size: 16px; font-weight: 400; padding: 20px; background: var(--bg-color); border-radius: var(--radius-lg); border: 1px dashed var(--border);}
+
+        /* Animated Action Buttons injected by JS */
+        .links-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin: 0 auto; max-width: 800px; padding: 20px 40px; }
+        .contact-btn { 
+            flex-grow: 1; flex-basis: 200px; justify-content: center;
+            display: inline-flex; align-items: center; gap: 12px; padding: 15px 25px; border-radius: var(--radius-xl); 
+            font-family: 'Poppins'; font-weight: 600; font-size: 16px; text-decoration: none; 
+            transition: var(--transition); border: none; cursor:pointer; color: white; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; overflow: hidden;
+        }
+        /* Highlight Reflection on Button */
+        .contact-btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0)); transform: skewX(-20deg); transition: 0.6s ease; }
+        .contact-btn:hover::after { left: 150%; }
+        .contact-btn i { font-size: 20px; }
+        .contact-btn:hover { transform: translateY(-5px) scale(1.03); box-shadow: var(--shadow-lg); }
+
+        /* Showcase Masonry Like Look */
+        .products-showcase { padding: 40px; background: var(--bg-color); border-top: 1px solid var(--border);}
+        .products-showcase h3 { margin-bottom: 30px; font-size: 26px; font-weight: 800; font-family:'Poppins'; color: var(--text); display: flex; align-items: center; justify-content:center; gap: 12px; text-align: center;}
+        .products-showcase h3 i { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .gallery a { display: block; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: var(--transition); background: var(--surface-solid); border: 2px solid transparent;}
+        .gallery a:hover { transform: scale(1.05) translateY(-5px); box-shadow: var(--shadow-lg), var(--shadow-glow); border-color: var(--primary); z-index:10;}
+        .gallery img { width: 100%; height: 260px; object-fit: cover; display: block; transition: 0.5s ease;}
+        .gallery a:hover img { filter: brightness(1.1); }
+
+        /* Overlay Systems Sidebar Settings */
+        #sidebar { position: fixed; top: 0; left: -380px; width: 350px; height: 100%; background: var(--surface); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); box-shadow: var(--shadow-lg); transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: 3000; padding: 40px 0; border-right: 1px solid var(--border);}
+        #sidebar.active { left: 0; }
+        
+        .sidebar-head-wrap { padding: 0 30px; margin-bottom: 40px; position:relative;}
+        .close-sidebar { position: absolute; top: -5px; right: 20px; font-size: 20px; cursor: pointer; background: var(--surface-solid); border: 1px solid var(--border); color: var(--text); width: 40px; height: 40px; border-radius: 50%; display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow-sm); transition: var(--transition); }
+        .close-sidebar:hover { background: var(--secondary); color: white; transform: rotate(180deg); border-color: transparent;}
+        
+        .sidebar-links { display: flex; flex-direction: column; }
+        .sidebar-links button, .sidebar-links a { 
+            padding: 20px 30px; text-decoration: none; color: var(--text); font-family: 'Poppins'; font-size: 16px; font-weight: 600;
+            border: none; background: transparent; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 20px;
+            transition: var(--transition); position: relative;
+        }
+        .sidebar-links button::before, .sidebar-links a::before { content:''; position: absolute; left: 0; top:10%; height: 80%; width: 5px; background: var(--gradient-1); border-radius: 0 5px 5px 0; transform: scaleY(0); transition: 0.3s; }
+        .sidebar-links button:hover, .sidebar-links a:hover { background: rgba(79, 70, 229, 0.05); color: var(--primary); }
+        .sidebar-links button:hover::before, .sidebar-links a:hover::before { transform: scaleY(1); }
+        .sidebar-links i { font-size: 22px; width: 30px; text-align: center; color: var(--text-light); transition: 0.3s; }
+        .sidebar-links button:hover i, .sidebar-links a:hover i { color: var(--primary); transform: translateX(5px);}
+
+        #darkOverlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2500; opacity: 0; animation: fadeInDark 0.4s forwards; }
+        @keyframes fadeInDark { to { opacity: 1; } }
+
+        /* Error / Empty Display Classes */
+        .empty-msg { text-align: center; color: var(--text-light); font-family:'Poppins'; font-size: 18px; font-weight: 600; grid-column: 1 / -1; margin-top: 50px; padding: 60px; background: var(--surface-solid); border-radius: var(--radius-xl); border: 2px dashed var(--border); box-shadow: var(--shadow-sm); animation: fadeInUp 0.5s ease both; }
+        
+        /* Layout Queries */
+        @media(max-width: 768px) {
+            header h1 { font-size: 26px;}
+            .search-box input { display: none; /* Simplification on very small mobiles if needed, but preserved per logic */ }
+            .hero-banner h2 { font-size: 2.2rem; }
+            #detailsView { padding: 0;}
+            .dv-inner-sheet { margin: 0; border-radius: 0; min-height: 100vh;}
+            .contact-btn { flex-basis: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- CSS Animated Gradient blobs for Magic Premium UI behind content -->
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- TOP NAVBAR -->
+    <header>
+        <div class="brand">
+            <button class="menu-btn" onclick="openSidebar()"><i class="fas fa-bars-staggered"></i></button>
+            <h1>allwara.</h1>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchBar" placeholder="Search brands, artists, names..." autocomplete="off" oninput="applyFilters()">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- SIDEBAR / DARK OVERLAY -->
+    <div id="darkOverlay" onclick="closeSidebar()"></div>
+    <div id="sidebar">
+        <div class="sidebar-head-wrap">
+            <h1 style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family:'Poppins'; font-size: 28px; font-weight: 800; letter-spacing: -1px;">allwara.</h1>
+            <p style="color: var(--text-light); font-size: 14px; margin-top: 5px; font-weight: 500;">Preferences & Menu</p>
+            <button class="close-sidebar" onclick="closeSidebar()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sidebar-links">
+            <button onclick="toggleTheme()"><i class="fas fa-moon"></i> Toggle Dark Mode</button>
+            <a href="mailto:allwara01@gmail.com"><i class="fas fa-headset"></i> Support / Contact</a>
+        </div>
+    </div>
+
+    <!-- MAIN HOMEPAGE WRAPPER -->
+    <div id="mainContainer">
+        
+        <!-- Premium Welcome Intro Hero Banner (Safe Added Element) -->
+        <div class="hero-banner">
+            <h2>Discover Premium Craft.</h2>
+            <p>Connect directly with top independent creators, boutique fashion designers, and pure authentic artistry from all across India.</p>
+        </div>
+        
+        <!-- Filters Block Panel -->
+        <div class="filters-wrapper">
+            <h3><i class="fas fa-sliders"></i> Adjust Discover Settings</h3>
+            <div class="filter-grid">
+                
+                <div class="filter-item">
+                    <select id="fCategory" onchange="applyFilters()">
+                        <option value="">🔮 Everything Appears Here</option>
+                        <option value="Bags">👜 Bags & Leather</option>
+                        <option value="Apparel">👗 Designer Apparel</option>
+                        <option value="Jewellery">💎 Fine Jewellery</option>
+                        <option value="Footwear">👟 Bespoke Footwear</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <input type="text" class="static-india" value="🌍 Indian Subcontinent" readonly>
+                </div>
+
+                <div class="filter-item">
+                    <input type="number" id="fPincode" placeholder="Area Pin Code" onkeyup="checkPincode()">
+                    <small id="pinStatus"><i class="fas fa-magic"></i> Auto Magic Location Locator</small>
+                </div>
+
+                <div class="filter-item">
+                    <input type="text" id="fState" placeholder="Filter by State" oninput="applyFilters()">
+                </div>
+                
+                <div class="filter-item">
+                    <input type="text" id="fDistrict" placeholder="Filter by City / District" oninput="applyFilters()">
+                </div>
+
+            </div>
+        </div>
+
+        <div id="loader">
+            <div class="icon-wrapper"><i class="fas fa-snowflake fa-spin"></i></div>
+            <p>Gathering Artisans From India...</p>
+        </div>
+
+        <!-- Master Seller Dynamic Map Inject Grid Base Object Layer List -->
+        <div id="sellerList">
+            <!-- Content Javascript Output Data Injects In Same Pattern Engine Formatted Display Cards! -->
+        </div>
+
+    </div>
+
+    <!-- FULL PROFILE/DETAILS MODERN OVERLAY POPUP/MODAL SCREEN VIEW SYSTEM! -->
+    <div id="detailsView">
+        <div class="dv-inner-sheet"> <!-- Sheet Structure App View -->
+            <div class="details-header">
+                <h2 id="dvHeadName" style="font-size: 20px; font-weight: 700; font-family:'Poppins';">Creator Portfolio</h2>
+                <button class="back-btn" onclick="closeDetailsView()"><span>Return</span> <i class="fas fa-times-circle"></i></button>
+            </div>
+
+            <div class="profile-hero">
+                <div class="cover-photo"></div>
+                <div class="profile-hero-content">
+                    <img id="dvProfilePic" src="" alt="Brand Logo Image" onerror="this.src='https://via.placeholder.com/300?text=No+Img'">
+                    <h1 id="dvName">Authentic Studio</h1>
+                    <div id="dvCatLoc" class="cat-loc-badge">
+                        <span><i class="fas fa-tags"></i> -</span>
+                        <span><i class="fas fa-location-dot"></i> -</span>
+                    </div>
+                    <p id="dvBio" class="bio-text"></p>
+                </div>
+            </div>
+
+            <div class="links-grid" id="dvLinks">
+                <!-- Javascript will Push Custom Action Links Array In Native Setup Nodes! -->
+            </div>
+
+            <div class="products-showcase">
+                <h3><i class="fas fa-layer-group"></i> Exclusive Collections</h3>
+                <div id="dvGallery" class="gallery">
+                    <!-- Photo Layout Logic Render Javascript Engine Will Do Build Output Print Process Node Strings Here-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- SECURE DATABASE FIREBASE CORE RAW SCRIPT AREA  -->
+    <!-- DO NOT CHANGE - CORE IS EXECUTED WITHOUT FAIL  -->
+    <!-- ============================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDEfr7xM38sv2V36MdbY0dKs-MoOqaEBC4",
+            authDomain: "allwara.firebaseapp.com",
+            databaseURL: "https://allwara-default-rtdb.firebaseio.com",
+            projectId: "allwara",
+            storageBucket: "allwara.firebasestorage.app",
+            messagingSenderId: "750105109586",
+            appId: "1:750105109586:web:ed06d9be7fee6427032b8b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Core global variables
+        window.sellersArray = [];
+
+        // Application load - database read trigger
+        document.getElementById('loader').style.display = "block";
+        
+        onValue(ref(db, 'sellers'), (snapshot) => {
+            window.sellersArray = [];
+            if(snapshot.exists()) {
+                const data = snapshot.val();
+                for (let key in data) {
+                    let info = data[key];
+                    info.id = key;
+                    // Add Only profiles NOT marked hidden from the host panel!
+                    if(info.isHidden !== true) { 
+                        window.sellersArray.push(info);
+                    }
+                }
+            }
+            document.getElementById('loader').style.display = "none";
+            window.applyFilters();
+        });
+        
+    </script>
+
+    <!-- General Logical Interactions Interface Unchanged Logic Variables Setup Map Code -->
+    <script>
+        
+        // --- 1. FILTER AND RENDER ENGINE --- 
+        window.applyFilters = function() {
+            let outDiv = document.getElementById('sellerList');
+            outDiv.innerHTML = "";
+            let htmlStr = "";
+            let matchedItems = 0;
+
+            let srch = document.getElementById('searchBar').value.trim().toLowerCase();
+            let cat = document.getElementById('fCategory').value;
+            let fSt = document.getElementById('fState').value.trim().toLowerCase();
+            let fDt = document.getElementById('fDistrict').value.trim().toLowerCase();
+
+            // Run safety check on array limits
+            if(window.sellersArray && window.sellersArray.length > 0) {
+                
+                window.sellersArray.forEach(item => {
+                    let nameTxt = item.name ? item.name.toLowerCase() : "";
+                    let catTxt = item.category ? item.category : "";
+                    let stateTxt = item.state ? item.state.toLowerCase() : "";
+                    let distTxt = item.district ? item.district.toLowerCase() : "";
+                    
+                    let passSearch = nameTxt.includes(srch);
+                    let passCat = (cat === "" || cat === catTxt);
+                    let passSt = (fSt === "" || stateTxt.includes(fSt));
+                    let passDist = (fDt === "" || distTxt.includes(fDt));
+
+                    // Output display configuration matched result:
+                    if(passSearch && passCat && passSt && passDist) {
+                        // Calculate stagger animation delay based on index
+                        let delay = (matchedItems % 10) * 0.1;
+                        matchedItems++;
+                        
+                        let sProfile = item.profileImg || 'https://via.placeholder.com/100?text=None';
+                        let cardBackground = (item.products && item.products.length > 0) ? item.products[0] : sProfile; // First item used as showcase background fallback to DP.
+                        let formattedLocation = [item.district, item.state].filter(v => v).join(', ') || "Location Not specified";
+                        
+                        // Parse HTML Card UI Template String Push. Passed direct index Object id.
+                        htmlStr += `
+                            <div class="card" style="animation: fadeInUp 0.8s ease both; animation-delay: ${delay}s;" onclick="openDetailsView('${item.id}')">
+                                <div class="card-img-wrap">
+                                    <span class="card-category-badge"><i class="fas fa-crown"></i> ${catTxt || 'Featured'}</span>
+                                    <img src="${cardBackground}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Unavailable'">
+                                </div>
+                                <div class="card-body">
+                                    <img class="card-profile" src="${sProfile}" loading="lazy" onerror="this.src='https://via.placeholder.com/100?text=Img'">
+                                    <h3 class="card-title">${item.name}</h3>
+                                    <p class="card-loc"><i class="fas fa-map-location-dot"></i> ${formattedLocation}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                if(matchedItems === 0) htmlStr = `<div class="empty-msg"><i class="fas fa-ghost fa-3x" style="margin-bottom:20px; color:var(--text-light); opacity:0.5;"></i><br>Ah! The void is quiet. No artisans match your magic filters today.</div>`;
+            } else {
+                 htmlStr = `<div class="empty-msg"><i class="fas fa-lock fa-3x" style="margin-bottom:20px; color:var(--text-light); opacity:0.5;"></i><br>Our creators are resting right now. Refresh the network shortly.</div>`;
+            }
+            outDiv.innerHTML = htmlStr;
+        }
+
+        // --- 2. THE DETAIL RENDER ENGINE (For single item opening event triggers) ---
+        window.openDetailsView = function(sellerId) {
+            
+            // Step A: Search for the single exact Seller Document array map list in memory database
+            const foundUserObj = window.sellersArray.find(x => x.id === sellerId);
+            if(!foundUserObj) return;
+
+            // Fix Page state variables styling details format strings:
+            document.getElementById('dvHeadName').innerText = "House of " + foundUserObj.name;
+            document.getElementById('dvProfilePic').src = foundUserObj.profileImg || '';
+            document.getElementById('dvName').innerText = foundUserObj.name || 'Anonymous Creator';
+            document.getElementById('dvBio').innerText = foundUserObj.bio || 'Silence is a form of art too... no words written here just yet. 🌟';
+            
+            let printCat = foundUserObj.category || 'Luxury Crafted';
+            let printLocation = foundUserObj.state || foundUserObj.district || "Globally Admired";
+            document.getElementById('dvCatLoc').innerHTML = `<span><i class="fas fa-layer-group"></i> ${printCat}</span> <span><i class="fas fa-globe-asia"></i> ${printLocation}</span>`;
+
+            // Clear old values of Button URLs Injection Grid String array!
+            let buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder= ``;
+
+            // Construct Buttons Check condition string limits blanks handling automatically !! (User Instruction Setup Note Match!)
+            if(foundUserObj.phone) {
+                 buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder += `<a href="tel:${foundUserObj.phone.trim()}" class="contact-btn btn-call" style="background: linear-gradient(135deg, #1e40af, #3b82f6);"><i class="fas fa-phone-volume"></i> Direct Voice Line</a>`;
+            }
+
+            if(foundUserObj.whatsappNum) {
+                let pureNm = foundUserObj.whatsappNum.replace(/\s+/g, '').replace('+', ''); // fix blank spaces error urls standard 
+                buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder += `<a href="https://wa.me/${pureNm}" target="_blank" class="contact-btn btn-wa" style="background: linear-gradient(135deg, #059669, #10b981);"><i class="fab fa-whatsapp"></i> Chat Real-time</a>`;
+            }
+
+            if(foundUserObj.whatsappGroup) {
+                 buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder += `<a href="${foundUserObj.whatsappGroup.trim()}" target="_blank" class="contact-btn btn-wa-group" style="background: linear-gradient(135deg, #065f46, #059669);"><i class="fas fa-user-friends"></i> Join Network</a>`;
+            }
+
+            if(foundUserObj.mapLink) {
+                 buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder += `<a href="${foundUserObj.mapLink.trim()}" target="_blank" class="contact-btn btn-map" style="background: linear-gradient(135deg, #b91c1c, #ef4444);"><i class="fas fa-map-marked-alt"></i> Navigate Area</a>`;
+            }
+
+            if(foundUserObj.instaLink) {
+                 buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder += `<a href="${foundUserObj.instaLink.trim()}" target="_blank" class="contact-btn btn-insta" style="background: linear-gradient(135deg, #e11d48, #f59e0b);"><i class="fab fa-instagram"></i> Style Feed</a>`;
+            }
+
+            if(foundUserObj.fbLink) {
+                 buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder += `<a href="${foundUserObj.fbLink.trim()}" target="_blank" class="contact-btn btn-fb" style="background: linear-gradient(135deg, #0369a1, #0ea5e9);"><i class="fab fa-facebook"></i> Media Page</a>`;
+            }
+            
+            // Embed Generated Button logic template in to interface map string node tree container object limit display !! 
+            document.getElementById('dvLinks').innerHTML = buttonContainerHTMLStringOutputsArraySetupVariablesRenderFormatEngineUIBuilder;
+
+
+            // Products Pictures setup Render Image Gallery Box Map Display String List Output Object Setup loop handler!!
+            let gViewDivObjStrHtmlNodeTextImgApplierSystemListVarSetupGalleryGridBoxLimitStringHtmlEngine = ``;
+
+            if(foundUserObj.products && foundUserObj.products.length > 0) {
+                 foundUserObj.products.forEach((imgSourceStringUrl, index) => {
+                     // Check limits empty source image error handler auto drop
+                     if(imgSourceStringUrl.trim().length > 3) { 
+                        let delay = (index % 10) * 0.1;
+                        gViewDivObjStrHtmlNodeTextImgApplierSystemListVarSetupGalleryGridBoxLimitStringHtmlEngine += `
+                          <a href="${imgSourceStringUrl}" target="_blank" style="animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: ${delay}s;">
+                             <img src="${imgSourceStringUrl}" loading="lazy" onerror="this.style.display='none'">
+                          </a>
+                        `;
+                     }
+                 });
+            }
+
+            // Print images check or handle limits text notice empty handler null check map
+            if(gViewDivObjStrHtmlNodeTextImgApplierSystemListVarSetupGalleryGridBoxLimitStringHtmlEngine == "") {
+                 gViewDivObjStrHtmlNodeTextImgApplierSystemListVarSetupGalleryGridBoxLimitStringHtmlEngine = "<div class='empty-msg'><i class='fas fa-cube fa-3x' style='margin-bottom:15px; opacity: 0.5;'></i><br>Masterpieces are being prepared in the background...</div>";
+            }
+
+            document.getElementById('dvGallery').innerHTML = gViewDivObjStrHtmlNodeTextImgApplierSystemListVarSetupGalleryGridBoxLimitStringHtmlEngine;
+
+
+            // Fire overlay screen shift system visible limits up over ui element node body tree object
+            document.body.style.overflow = "hidden"; // Prevents underneath scrolls issue visual bug mapping layout fixes overlay !
+            
+            let detailsViewNode = document.getElementById('detailsView');
+            detailsViewNode.style.display = "block";
+            // Ensure sheet slides up on show smoothly using parent class CSS mapped logic override native
+            detailsViewNode.scrollTo(0,0);
+        }
+
+        window.closeDetailsView = function() {
+            let detailsViewNode = document.getElementById('detailsView');
+            // Adding mild transition scale bug exit fix display native timeout trick smooth native fix setup js check limit:
+            detailsViewNode.querySelector('.dv-inner-sheet').style.transform = "translateY(50px)";
+            detailsViewNode.querySelector('.dv-inner-sheet').style.opacity = "0";
+            setTimeout(()=>{
+                detailsViewNode.style.display = "none";
+                detailsViewNode.querySelector('.dv-inner-sheet').style.transform = "";
+                detailsViewNode.querySelector('.dv-inner-sheet').style.opacity = "1";
+                document.body.style.overflow = "auto";
+            }, 300); // 300ms matches native eye delay UI flow drop check var
+        }
+
+
+        // --- 3. BASIC PAGE INTERACTIONS ---
+
+        // Check local saved Mode Light Theme dark limit local host local cache browser settings function cache load limit ui app 
+        window.onload = function() {
+            if(localStorage.getItem('allwaraModeStateUserLayoutSettingsLocalObjectVariableThemeFormatLimitMap') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        };
+
+        window.toggleTheme = function() {
+            let htmlObjVarThemeConfigThemeMapThemeNodeStateFormatVarSystemSysHtmlStateVarObjectVarsPropertyStrHTML = document.documentElement;
+
+            if (htmlObjVarThemeConfigThemeMapThemeNodeStateFormatVarSystemSysHtmlStateVarObjectVarsPropertyStrHTML.getAttribute('data-theme') === 'dark') {
+                htmlObjVarThemeConfigThemeMapThemeNodeStateFormatVarSystemSysHtmlStateVarObjectVarsPropertyStrHTML.setAttribute('data-theme', 'light');
+                localStorage.setItem('allwaraModeStateUserLayoutSettingsLocalObjectVariableThemeFormatLimitMap', 'light');
+            } else {
+                 htmlObjVarThemeConfigThemeMapThemeNodeStateFormatVarSystemSysHtmlStateVarObjectVarsPropertyStrHTML.setAttribute('data-theme', 'dark');
+                 localStorage.setItem('allwaraModeStateUserLayoutSettingsLocalObjectVariableThemeFormatLimitMap', 'dark');
+            }
+        }
+
+        window.openSidebar = function() {
+            document.getElementById('sidebar').classList.add('active');
+            document.getElementById('darkOverlay').style.display = "block";
+        }
+        
+        window.closeSidebar = function() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('darkOverlay').style.display = "none";
+        }
+
+        // AUTO PINCODE LOCATION GETTER FOR USER SEARCH !! Match spelling host panel limits same system object call !
+        window.checkPincode = async function() {
+             const limitUserEntryLimitCharFormatCheckPincodeValueVarLimitCheckValueNodeState= document.getElementById('fPincode').value;
+             let userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg = document.getElementById('pinStatus');
+             
+             if(limitUserEntryLimitCharFormatCheckPincodeValueVarLimitCheckValueNodeState.length === 6) {
+                userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.innerHTML = "<i class='fas fa-compass fa-spin'></i> Scanning Mapping Servers...";
+                userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.style.color = "var(--secondary)";
+                try {
+                     const postAPIReqNetWebBrowserNetRequestUserLimitsFetchStateResponseResultApiStrFetchValueFormatDataStringSysResponseValueDataResultReqGetCallUrlParamStrCheckSysReqPincodePostalSysFormatResultNodeAppSysLimits = await fetch(`https://api.postalpincode.in/pincode/${limitUserEntryLimitCharFormatCheckPincodeValueVarLimitCheckValueNodeState}`);
+                     let dataMapSystemArrayStrListAppListStrJSONFormatParseStrJsonSysResultSysStrReqJsonParseCallLimitsRes= await postAPIReqNetWebBrowserNetRequestUserLimitsFetchStateResponseResultApiStrFetchValueFormatDataStringSysResponseValueDataResultReqGetCallUrlParamStrCheckSysReqPincodePostalSysFormatResultNodeAppSysLimits.json();
+                     
+                     if(dataMapSystemArrayStrListAppListStrJSONFormatParseStrJsonSysResultSysStrReqJsonParseCallLimitsRes[0].Status === 'Success') {
+                         
+                         let getInfoSInfoDistFormatSysObjCallNodeObjectTargetResponseVarParam= dataMapSystemArrayStrListAppListStrJSONFormatParseStrJsonSysResultSysStrReqJsonParseCallLimitsRes[0].PostOffice[0];
+                         // Set auto fields form user interaction settings 
+                         document.getElementById('fState').value = getInfoSInfoDistFormatSysObjCallNodeObjectTargetResponseVarParam.State;
+                         document.getElementById('fDistrict').value = getInfoSInfoDistFormatSysObjCallNodeObjectTargetResponseVarParam.District;
+                         
+                         userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.innerHTML = "<i class='fas fa-circle-check'></i> Synced: " + getInfoSInfoDistFormatSysObjCallNodeObjectTargetResponseVarParam.District +", "+ getInfoSInfoDistFormatSysObjCallNodeObjectTargetResponseVarParam.State ;
+                         userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.style.color = "#10b981";
+                         
+                         // Automatically fire Apply Filters method trigger layout
+                         window.applyFilters();
+                         
+                     } else {
+                         userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.innerHTML = "<i class='fas fa-triangle-exclamation'></i> Coordinates Not Found. Check Value.";
+                         userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.style.color = "#ef4444";
+                     }
+
+                }catch(e){
+                     userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.innerHTML = "<i class='fas fa-satellite-dish'></i> Server Transmission Erro!"; 
+                     userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.style.color = "#ef4444";
+                }
+
+             } else {
+                  userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.innerHTML = "<i class='fas fa-magic'></i> Auto Magic Location Locator";
+                  userLimitsAlertMsgSysStateUIPanelValueFormatStringStrDisplayInfoNodeMsg.style.color = "var(--text-light)";
+             }
+        }
+    </script>
+</body>
+</html>
